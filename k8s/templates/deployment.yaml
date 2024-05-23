@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: birum-home-services
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: birum-home-services
+  template:
+    metadata:
+      labels:
+        app: birum-home-services
+    spec:
+      containers:
+        - name: app
+          image: mbirum/home-services:latest
+          imagePullPolicy: Always
+          env:
+            - name: NEW_RELIC_LICENSE_KEY
+              value: '65b12600250570806032c5ced1bc88a85b39NRAL'
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          command:
+          - /bin/sh
+          - -c
+          - java -javaagent:/opt/newrelic/newrelic.jar -jar app.jar
