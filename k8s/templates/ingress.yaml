@@ -4,14 +4,16 @@ metadata:
   name: birum-home-services-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    alb.ingress.kubernetes.io/healthcheck-path: /test
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
 spec:
   ingressClassName: alb
   rules:
   - http:
       paths:
-      - path: /test
-        pathType: Prefix
+      - path: /
+        pathType: ImplementationSpecific
         backend:
           service:
             name: birum-home-services
