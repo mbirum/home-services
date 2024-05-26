@@ -32,6 +32,9 @@ jobs:
           name: maven-artifact
           path: target
 
+      - name: debug
+        run: ls -la && ls -la target
+        
       - name: Stage app jar
         run: cp target/services-*.jar ./app.jar
 
