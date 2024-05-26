@@ -24,3 +24,29 @@ jobs:
           tags: |
             mbirum/home-services:latest
             mbirum/home-services:${{ github.sha }}
+
+  deploy:
+    name: Deploy
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set the Kubernetes context
+        uses: azure/k8s-set-context@v2
+        with:
+          method: service-account
+          k8s-url: https://2FFFD13F98E778D55CD5FF3C63114676.gr7.us-east-2.eks.amazonaws.com
+          k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
+
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Deploy to the Kubernetes cluster
+        uses: azure/k8s-deploy@v1
+        with:
+          namespace: demo
+          manifests: |
+            k8s/deployment.yaml
+            k8s/ingress.yaml
+            k8s/service.yaml
+          images: |
+            mbirum/home-services:${{ github.sha }}
