@@ -4,11 +4,12 @@ on: push
 
 jobs:
 
-  maven_build:
-    name: Build Artifact
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+
       - name: Set up JDK 17
         uses: actions/setup-java@v1
         with:
@@ -16,27 +17,6 @@ jobs:
 
       - name: Package with mvn
         run: mvn clean package
-
-      - uses: actions/upload-artifact@master
-        with:
-          name: maven-artifact
-          path: target
-
-  image_build:
-    name: Build Image
-    needs: [ maven_build ]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@master
-        with:
-          name: maven-artifact
-          path: target
-
-      - name: debug
-        run: ls -la && ls -la target
-        
-      - name: Stage app jar
-        run: cp target/services-*.jar ./app.jar
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -50,6 +30,7 @@ jobs:
       - name: Build and push the Docker image
         uses: docker/build-push-action@v3
         with:
+          context: .
           push: true
           tags: |
             mbirum/home-services:latest
@@ -57,7 +38,7 @@ jobs:
 
   deploy:
     name: Deploy
-    needs: [ maven_build, image_build ]
+    needs: [ build ]
     runs-on: ubuntu-latest
     steps:
       - name: Set the Kubernetes context
@@ -68,7 +49,7 @@ jobs:
           k8s-secret: ${{ secrets.KUBERNETES_SECRET }}
 
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Deploy to the Kubernetes cluster
         uses: azure/k8s-deploy@v1
