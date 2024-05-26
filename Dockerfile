@@ -11,7 +11,6 @@ RUN curl -fsSL https://download.newrelic.com/newrelic/java-agent/newrelic-agent/
 	chmod +x /opt/newrelic/newrelic.jar
 
 COPY ./target/services-*.jar app.jar
-RUN chmod 755 app.jar
 COPY ./newrelic.yml /opt/newrelic/newrelic.yml
 
 USER spring:spring
