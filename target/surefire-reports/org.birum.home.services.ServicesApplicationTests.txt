@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.birum.home.services.ServicesApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.616 s -- in org.birum.home.services.ServicesApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.332 s -- in org.birum.home.services.ServicesApplicationTests
