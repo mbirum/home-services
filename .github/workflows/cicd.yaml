@@ -13,8 +13,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 17
+
       - name: Package with mvn
         run: mvn clean package
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: maven-artifact
+          path: target
 
   image_build:
     name: Build
