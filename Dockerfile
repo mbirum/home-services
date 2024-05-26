@@ -10,7 +10,7 @@ RUN groupadd spring && adduser --disabled-password --gecos ""  --ingroup spring 
 RUN curl -fsSL https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-agent.jar > /opt/newrelic/newrelic.jar && \
 	chmod +x /opt/newrelic/newrelic.jar
 
-COPY ./target/services-*.jar app.jar
+COPY app.jar app.jar
 COPY ./newrelic.yml /opt/newrelic/newrelic.yml
 
 USER spring:spring
