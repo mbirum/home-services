@@ -8,6 +8,6 @@ public class TestController {
 
 	@GetMapping("/")
 	public String testMethod() {
-		return "Work in progress";
+		return "Working in services namespace";
 	}
 }
