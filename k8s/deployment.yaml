@@ -12,13 +12,14 @@ spec:
       labels:
         app: birum-home-services
     spec:
+      serviceAccountName: birum-pod-aws-role
       containers:
         - name: app
           image: mbirum/home-services:latest
           imagePullPolicy: Always
           env:
             - name: NEW_RELIC_LICENSE_KEY
-              value: '65b12600250570806032c5ced1bc88a85b39NRAL'
+              value: 'SECRET_NEW_RELIC_LICENSE_KEY'
           ports:
             - name: http
               containerPort: 8080

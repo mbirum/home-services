@@ -50,6 +50,10 @@ jobs:
 
       - name: Checkout source code
         uses: actions/checkout@v4
+        
+      - name: Inject secrets
+        run: |
+          sed -i "s,SECRET_NEW_RELIC_LICENSE_KEY,${{ secrets.NEW_RELIC_LICENSE_KEY }}," k8s/deployment.yaml
 
       - name: Deploy to the Kubernetes cluster
         uses: azure/k8s-deploy@v1
