@@ -1,4 +1,4 @@
-package org.birum.home.services.web;
+package org.birum.home.services.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

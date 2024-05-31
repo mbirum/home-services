@@ -1,2 +1,12 @@
+/Users/mattbirum/dev/code/home-services/src/main/java/org/birum/home/services/entity/response/InvalidRequestResponse.java
 /Users/mattbirum/dev/code/home-services/src/main/java/org/birum/home/services/ServicesApplication.java
-/Users/mattbirum/dev/code/home-services/src/main/java/org/birum/home/services/web/TestController.java
+/Users/mattbirum/dev/code/home-services/src/main/java/org/birum/home/services/entity/EmptyResource.java
+/Users/mattbirum/dev/code/home-services/src/main/java/org/birum/home/services/controller/TestController.java
+/Users/mattbirum/dev/code/home-services/src/main/java/org/birum/home/services/service/ResourceService.java
+/Users/mattbirum/dev/code/home-services/src/main/java/org/birum/home/services/exception/ValidationException.java
+/Users/mattbirum/dev/code/home-services/src/main/java/org/birum/home/services/entity/IResource.java
+/Users/mattbirum/dev/code/home-services/src/main/java/org/birum/home/services/dao/ResourceDAO.java
+/Users/mattbirum/dev/code/home-services/src/main/java/org/birum/home/services/entity/NamedResource.java
+/Users/mattbirum/dev/code/home-services/src/main/java/org/birum/home/services/entity/response/StringResponse.java
+/Users/mattbirum/dev/code/home-services/src/main/java/org/birum/home/services/controller/ImageController.java
+/Users/mattbirum/dev/code/home-services/src/main/java/org/birum/home/services/config/DynamoDbConfig.java
