@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import software.amazon.awssdk.auth.credentials.WebIdentityTokenFileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
  
@@ -32,6 +33,7 @@ public class DynamoDbConfig {
 		  use.printStackTrace();
 	  }
     return DynamoDbClient.builder()
+    		.credentialsProvider(WebIdentityTokenFileCredentialsProvider.create())
             .region(Region.US_EAST_2)
             .endpointOverride(endpointURI)
             .build();
