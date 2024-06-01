@@ -40,6 +40,7 @@ public class ImageController {
 			return new ResponseEntity<>(new InvalidRequestResponse(ve.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>(new InvalidRequestResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
