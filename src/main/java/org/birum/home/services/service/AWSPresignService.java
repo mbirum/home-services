@@ -5,6 +5,8 @@ import java.time.Duration;
 import org.birum.home.services.entity.NamedResource;
 import org.springframework.stereotype.Service;
 
+import software.amazon.awssdk.auth.credentials.WebIdentityTokenFileCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
@@ -18,8 +20,11 @@ public class AWSPresignService {
 	}
 	
     public String createPresignedGetUrl(String bucketName, String keyName) {
-        try (S3Presigner presigner = S3Presigner.create()) {
-
+        try (S3Presigner presigner = S3Presigner.builder()
+        		.region(Region.US_EAST_2)
+        		.credentialsProvider(WebIdentityTokenFileCredentialsProvider.create())
+        		.build()) {
+        	
             GetObjectRequest objectRequest = GetObjectRequest.builder()
                     .bucket(bucketName)
                     .key(keyName)
