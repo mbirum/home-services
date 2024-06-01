@@ -14,7 +14,10 @@ public class NamedResource implements IResource {
 	private String resourceName;
 
 	@DynamoDBTyped(DynamoDBAttributeType.S)
-	private String url;
+	private String bucketName;
+	
+	@DynamoDBTyped(DynamoDBAttributeType.S)
+	private String keyName;
 
 	@DynamoDBHashKey
 	public String getResourceName() {
@@ -24,19 +27,28 @@ public class NamedResource implements IResource {
 	public void setResourceName(String resourceName) {
 		this.resourceName = resourceName;
 	}
-
-	@Override
-	public String getUrl() {
-		return url;
+	
+	public String getBucketName() {
+		return bucketName;
 	}
-
-	public void setUrl(String url) {
-		this.url = url;
+	
+	public void setBucketName(String bucketName) {
+		this.bucketName = bucketName;
+	}
+	
+	public String getKeyName() {
+		return keyName;
+	}
+	
+	public void setKeyName(String keyName) {
+		this.keyName = keyName;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return !StringUtils.hasLength(resourceName) || !StringUtils.hasLength(url);
+		return !StringUtils.hasLength(resourceName) 
+				|| !StringUtils.hasLength(bucketName)
+				|| !StringUtils.hasLength(keyName);
 	}
 
 }

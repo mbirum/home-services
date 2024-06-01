@@ -4,6 +4,7 @@ import org.birum.home.services.entity.NamedResource;
 import org.birum.home.services.entity.response.InvalidRequestResponse;
 import org.birum.home.services.entity.response.StringResponse;
 import org.birum.home.services.exception.ValidationException;
+import org.birum.home.services.service.AWSPresignService;
 import org.birum.home.services.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ public class ImageController {
 
 	@Autowired
 	ResourceService resourceService;
+	
+	@Autowired
+	AWSPresignService awsPresignService;
 
 	@CrossOrigin(origins = "http://mattbirum.com")
 	@GetMapping("/{name}")
@@ -30,12 +34,16 @@ public class ImageController {
 			if (imageResource.isEmpty()) {
 				return new ResponseEntity<>(new StringResponse(imageURL), HttpStatus.NOT_FOUND);
 			}
-			imageURL = imageResource.getUrl();
+			imageURL = awsPresignService.createPresignedGetUrl(imageResource);
 		}
 		catch (ValidationException ve) {
 			return new ResponseEntity<>(new InvalidRequestResponse(ve.getMessage()), HttpStatus.BAD_REQUEST);
 		}
+		catch (Exception e) {
+			return new ResponseEntity<>(new InvalidRequestResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 		return new ResponseEntity<>(new StringResponse(imageURL), HttpStatus.OK);
 	}
+	
 }
