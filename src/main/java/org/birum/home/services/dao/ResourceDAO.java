@@ -1,46 +1,55 @@
 package org.birum.home.services.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.birum.home.services.entity.EmptyResource;
 import org.birum.home.services.entity.NamedResource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
+import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
+import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
+import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
 
 @Component
 public class ResourceDAO {
+	
+	@Autowired
+	DynamoDbClient dynamoDbClient;
 
-	private final DynamoDBMapper mapper;
-
-	public ResourceDAO(AmazonDynamoDB dynamoDb) {
-		this.mapper = new DynamoDBMapper(dynamoDb);
+	public ResourceDAO() {
+		
 	}
 
 	public NamedResource getResourceByName(String name) {
-		Collection<NamedResource> resources = new ArrayList<NamedResource>();
-		DynamoDBQueryExpression<NamedResource> query = new DynamoDBQueryExpression<NamedResource>();
-		query.setScanIndexForward(false);
+        HashMap<String, AttributeValue> attrValues = new HashMap<>();
+        attrValues.put(":resourceName", AttributeValue.builder()
+                .s(name)
+                .build());
 
-		Map<String, AttributeValue> expressionAttributeValues = new HashMap<String, AttributeValue>();
-		expressionAttributeValues.put(":resourceName", new AttributeValue().withS(name));
+        QueryRequest queryReq = QueryRequest.builder()
+                .tableName("BirumServiceResources")
+                .keyConditionExpression("resourceName = :resourceName")
+                .expressionAttributeValues(attrValues)
+                .build();
 
-		query.withKeyConditionExpression("resourceName = :resourceName")
-				.withExpressionAttributeValues(expressionAttributeValues);
-
-		resources.addAll(mapper.query(NamedResource.class, query));
-
-		if (!CollectionUtils.isEmpty(resources)) {
-			return resources.iterator().next();
-		}
-		return new EmptyResource();
+        try {
+            QueryResponse response = dynamoDbClient.query(queryReq);
+            if (response.hasItems()) {
+            	Map<String, AttributeValue> item = response.items().iterator().next();
+            	return new NamedResource(item.get("resourceName").s(), item.get("bucketName").s(), item.get("keyName").s());
+            }
+        }
+        catch (DynamoDbException e) {
+            e.printStackTrace();
+        }
+        
+        return new EmptyResource();
 	}
+	
+	
 
 }

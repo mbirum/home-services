@@ -1,13 +1,16 @@
 package org.birum.home.services.config;
  
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
  
-import com.amazonaws.client.builder.AwsClientBuilder.EndpointConfiguration;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
  
 @Configuration
 @Profile("!local")
@@ -20,10 +23,18 @@ public class DynamoDbConfig {
   private String amazonDynamoDbRegion;
  
   @Bean
-  AmazonDynamoDB amazonDynamoDB() {
-    return AmazonDynamoDBClientBuilder.standard()
-      .withEndpointConfiguration(new EndpointConfiguration(amazonDynamoDbEndpoint, amazonDynamoDbRegion))
-        .build();
+  DynamoDbClient dynamoDbClient() {
+	  URI endpointURI = null;
+	  try {
+		  endpointURI = new URI(amazonDynamoDbEndpoint);
+	  }
+	  catch (URISyntaxException use) {
+		  use.printStackTrace();
+	  }
+    return DynamoDbClient.builder()
+            .region(Region.US_EAST_2)
+            .endpointOverride(endpointURI)
+            .build();
   }
  
 }

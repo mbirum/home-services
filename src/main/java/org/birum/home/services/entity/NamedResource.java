@@ -2,24 +2,24 @@ package org.birum.home.services.entity;
 
 import org.springframework.util.StringUtils;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel.DynamoDBAttributeType;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
-
-@DynamoDBTable(tableName = "BirumServiceResources")
 public class NamedResource implements IResource {
 
-	@DynamoDBTyped(DynamoDBAttributeType.S)
 	private String resourceName;
 
-	@DynamoDBTyped(DynamoDBAttributeType.S)
 	private String bucketName;
 	
-	@DynamoDBTyped(DynamoDBAttributeType.S)
 	private String keyName;
 
-	@DynamoDBHashKey
+	public NamedResource() {
+		
+	}
+	
+	public NamedResource(String resourceName, String bucketName, String keyName) {
+		this.resourceName = resourceName;
+		this.bucketName = bucketName;
+		this.keyName = keyName;
+	}
+	
 	public String getResourceName() {
 		return resourceName;
 	}
