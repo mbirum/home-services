@@ -1,7 +1,7 @@
 package org.birum.home.services.controller;
 
 import org.birum.home.services.entity.NamedResource;
-import org.birum.home.services.entity.response.InvalidRequestResponse;
+import org.birum.home.services.entity.response.ErrorResponse;
 import org.birum.home.services.entity.response.StringResponse;
 import org.birum.home.services.exception.ValidationException;
 import org.birum.home.services.service.AWSPresignService;
@@ -25,7 +25,7 @@ public class ImageController {
 	@Autowired
 	AWSPresignService awsPresignService;
 
-	@CrossOrigin(origins = "http://mattbirum.com")
+	@CrossOrigin(origins = {"http://mattbirum.com", "https://mattbirum.com"})
 	@GetMapping("/{name}")
 	public ResponseEntity<Object> getImageURL(@PathVariable final String name) {
 		String imageURL = "";
@@ -37,11 +37,11 @@ public class ImageController {
 			imageURL = awsPresignService.createPresignedGetUrl(imageResource);
 		}
 		catch (ValidationException ve) {
-			return new ResponseEntity<>(new InvalidRequestResponse(ve.getMessage()), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new ErrorResponse(ve.getMessage()), HttpStatus.BAD_REQUEST);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>(new InvalidRequestResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 		return new ResponseEntity<>(new StringResponse(imageURL), HttpStatus.OK);

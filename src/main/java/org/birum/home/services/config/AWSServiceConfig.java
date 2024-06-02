@@ -11,11 +11,12 @@ import org.springframework.context.annotation.Profile;
 import software.amazon.awssdk.auth.credentials.WebIdentityTokenFileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
  
  
 @Configuration
 @Profile("!local")
-public class DynamoDbConfig {
+public class AWSServiceConfig {
  
   @Value("${amazon.dynamodb.endpoint}")
   private String amazonDynamoDbEndpoint;
@@ -34,9 +35,17 @@ public class DynamoDbConfig {
 	  }
     return DynamoDbClient.builder()
     		.credentialsProvider(WebIdentityTokenFileCredentialsProvider.create())
-            .region(Region.US_EAST_2)
+            .region(Region.of(amazonDynamoDbRegion))
             .endpointOverride(endpointURI)
             .build();
+  }
+  
+  @Bean
+  S3Presigner s3Presigner() {
+	  return S3Presigner.builder()
+      		.region(Region.of(amazonDynamoDbRegion))
+      		.credentialsProvider(WebIdentityTokenFileCredentialsProvider.create())
+      		.build();
   }
  
 }

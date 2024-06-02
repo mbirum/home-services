@@ -2,7 +2,7 @@ package org.birum.home.services.entity.response;
 
 import java.io.Serializable;
 
-public class InvalidRequestResponse implements Serializable {
+public class ErrorResponse implements Serializable {
 
 	private static final long serialVersionUID = -70398788362847785L;
 
@@ -10,11 +10,11 @@ public class InvalidRequestResponse implements Serializable {
 	
 	private String context;
 	
-	public InvalidRequestResponse(final String error) {
+	public ErrorResponse(final String error) {
 		this.error = error;
 	}
 	
-	public InvalidRequestResponse(final String error, final String context) {
+	public ErrorResponse(final String error, final String context) {
 		this.error = error;
 		this.context = context;
 	}

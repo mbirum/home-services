@@ -4,7 +4,7 @@ metadata:
   name: birum-home-services-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/healthcheck-path: /healthcheck
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
 spec:

@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "amazon.dynamodb.endpoint",
+    "type": "java.lang.String",
+    "description": "AWS DynamoDB endpoint"
+  },
+  {
+    "name": "amazon.dynamodb.region",
+    "type": "java.lang.String",
+    "description": "AWS DynamoDB region"
+  },
+  {
+    "name": "amazon.presign.durationinminutes",
+    "type": "java.lang.Integer",
+    "description": "Validity duration in minutes for a presigned S3 object url"
+  },
+  {
+    "name": "amazon.dynamodb.tablename",
+    "type": "java.lang.String",
+    "description": "Main resource table name"
+  }
+]}
