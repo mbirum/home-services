@@ -7,6 +7,7 @@ metadata:
     alb.ingress.kubernetes.io/healthcheck-path: /healthcheck
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-2:999198318212:certificate/eec310da-9043-4cd5-b12d-9f07d79e0467
 spec:
   ingressClassName: alb
