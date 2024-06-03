@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.newrelic.api.agent.Trace;
+
 @Service
 public class ResourceService {
 
 	@Autowired
 	ResourceDAO resourceDAO;
 	
+	@Trace
 	public NamedResource getNamedResource(final String name) throws ValidationException {
 		validate(name);
 		return resourceDAO.getResourceByName(name);

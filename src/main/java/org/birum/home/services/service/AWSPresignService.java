@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.newrelic.api.agent.Trace;
+
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
@@ -25,6 +27,7 @@ public class AWSPresignService {
 		return createPresignedGetUrl(resource.getBucketName(), resource.getKeyName());
 	}
 	
+	@Trace
     public String createPresignedGetUrl(String bucketName, String keyName) {    	
         GetObjectRequest objectRequest = GetObjectRequest.builder()
                 .bucket(bucketName)
