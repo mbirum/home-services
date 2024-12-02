@@ -3,4 +3,6 @@ on: workflow_dispatch
 jobs:
   test-job:
     runs-on: ubuntu:latest
-    run: echo "Hi Matt"
+    steps:
+      - name: Step 1
+        run: echo "Hi Matt"
