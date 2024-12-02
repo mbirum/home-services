@@ -2,7 +2,7 @@ name: Test Workflow
 on: workflow_dispatch
 jobs:
   test-job:
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
     steps:
       - name: Step 1
         run: echo "Hi Matt"
